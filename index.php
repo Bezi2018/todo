@@ -10,6 +10,13 @@ $stmt->execute([
 
 $data = $stmt->fetchAll();
 
+$STATUS = [
+    'Zadanie rozpoczęte',
+    'Zadanie zakończone',
+    'Zadanie usunięte',
+    'Zadanie wstrzymane',
+];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +30,7 @@ $data = $stmt->fetchAll();
     <h1>Lista zadań</h1>
 
     <form action="create.php" method="post">
-        <input type="text" name="title" placeholder="Tytuł">    
+        <input type="text" name="title" placeholder="Tytuł"> <br />   
         <textarea name="description" id="descripiton" cols="30" rows="10"></textarea>
         
         <button type="submit">Dodaj</button>
@@ -31,7 +38,19 @@ $data = $stmt->fetchAll();
 
     <ul>
     <?php foreach($data as $item): ?>
-        <li><?= $item['title'] ?> <a href="delete.php?id=<?= $item['id']?>">usuń</a></li>
+        <li>
+            <?= $item['title'] ?>  
+            Status: <?= $STATUS[ $item['status'] ] ?>  
+            
+            <a href="delete.php?id=<?= $item['id'] ?>">usuń</a> 
+            
+            <?php if($item['status'] != 1): ?>
+            <a href="finish.php?id=<?= $item['id'] ?>">zakończ</a> 
+            <?php endif; ?>
+
+            <a href="update.php?id=<?= $item['id'] ?>">edycja</a> 
+
+        </li>
     <?php endforeach; ?>
 
     <?php if(empty($data)): ?>

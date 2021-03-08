@@ -8,7 +8,7 @@ if($id === null) {
     die("Niepoprawne żądanie!");
 }
 
-$sql = "DELETE FROM `todo` WHERE uId=:uId and id=:id";
+$sql = "UPDATE `todo` SET status=1 WHERE uId=:uId and id=:id";
 $stmt = $db->prepare($sql);
 $stmt->execute([
     ':id' => $id,
